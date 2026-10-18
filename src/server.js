@@ -12,6 +12,11 @@ const {
   deleteStudent
 } = require("./studentService");
 
+const {
+  login,
+  isAuthenticated
+} = require("./auth");
+
 
 // ==============================
 // CREATE SERVER
@@ -28,6 +33,62 @@ const server = http.createServer((req, res) => {
     req.url,
     `http://${req.headers.host}`
   );
+
+
+  // ==============================
+  // LOGIN
+  // ==============================
+
+  if (
+    req.method === "POST" &&
+    parsedUrl.pathname === "/login"
+  ) {
+    let body = "";
+
+    req.on("data", chunk => {
+      body += chunk;
+    });
+
+    req.on("end", () => {
+      try {
+        const data = JSON.parse(body);
+
+        const token = login(
+          data.username,
+          data.password
+        );
+
+        if (!token) {
+          res.statusCode = 401;
+
+          return res.end(
+            JSON.stringify({
+              error: "Invalid username or password"
+            })
+          );
+        }
+
+        res.statusCode = 200;
+
+        return res.end(
+          JSON.stringify({
+            token
+          })
+        );
+
+      } catch (err) {
+        res.statusCode = 400;
+
+        return res.end(
+          JSON.stringify({
+            error: "Invalid request body"
+          })
+        );
+      }
+    });
+
+    return;
+  }
 
 
   // ==============================
@@ -82,12 +143,24 @@ const server = http.createServer((req, res) => {
 
   // ==============================
   // CREATE STUDENT
+  // PROTECTED ENDPOINT
   // ==============================
 
   if (
     req.method === "POST" &&
     parsedUrl.pathname === "/students"
   ) {
+
+    if (!isAuthenticated(req)) {
+      res.statusCode = 401;
+
+      return res.end(
+        JSON.stringify({
+          error: "Unauthorized"
+        })
+      );
+    }
+
     let body = "";
 
     req.on("data", chunk => {
@@ -126,12 +199,24 @@ const server = http.createServer((req, res) => {
 
   // ==============================
   // UPDATE STUDENT
+  // PROTECTED ENDPOINT
   // ==============================
 
   if (
     req.method === "PUT" &&
     parsedUrl.pathname.startsWith("/students/")
   ) {
+
+    if (!isAuthenticated(req)) {
+      res.statusCode = 401;
+
+      return res.end(
+        JSON.stringify({
+          error: "Unauthorized"
+        })
+      );
+    }
+
     const id = Number(
       parsedUrl.pathname.split("/")[2]
     );
@@ -185,12 +270,24 @@ const server = http.createServer((req, res) => {
 
   // ==============================
   // DELETE STUDENT
+  // PROTECTED ENDPOINT
   // ==============================
 
   if (
     req.method === "DELETE" &&
     parsedUrl.pathname.startsWith("/students/")
   ) {
+
+    if (!isAuthenticated(req)) {
+      res.statusCode = 401;
+
+      return res.end(
+        JSON.stringify({
+          error: "Unauthorized"
+        })
+      );
+    }
+
     const id = Number(
       parsedUrl.pathname.split("/")[2]
     );
