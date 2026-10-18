@@ -1,0 +1,27 @@
+{
+  "name": "culminating-activity-integrated-information-system",
+  "version": "1.0.0",
+  "description": "FAITH BSIT PROJECT",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonnyllarena-git/Culminating-Activity-Integrated-Information-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sonnyllarena-git/Culminating-Activity-Integrated-Information-System/issues"
+  },
+  "homepage": "https://github.com/sonnyllarena-git/Culminating-Activity-Integrated-Information-System#readme",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3"
+  }
+}
