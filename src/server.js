@@ -337,3 +337,10 @@ server.listen(3000, () => {
     "API running on http://localhost:3000"
   );
 });
+
+
+// ==============================
+// EXPORT SERVER FOR TESTING
+// ==============================
+
+module.exports = server;

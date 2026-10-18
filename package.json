@@ -7,8 +7,11 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node src/server.js",
+  "test:unit": "node tests/validation.test.js",
+  "test:api": "node tests/api.test.js",
+  "test": "node tests/validation.test.js && node tests/api.test.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sonnyllarena-git/Culminating-Activity-Integrated-Information-System.git"

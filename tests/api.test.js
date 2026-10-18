@@ -1,4 +1,11 @@
 // ==============================
+// IMPORT SERVER
+// ==============================
+
+const server = require("../src/server");
+
+
+// ==============================
 // TEST SETTINGS
 // ==============================
 
@@ -186,6 +193,11 @@ async function runTests() {
       "\nTEST FAILED:",
       err.message
     );
+
+    process.exitCode = 1;
+
+  } finally {
+    server.close();
   }
 }
 
